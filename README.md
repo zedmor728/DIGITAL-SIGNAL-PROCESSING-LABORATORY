@@ -1,5 +1,7 @@
 # COU 07506 — DSP Laboratory Work, Weeks 1–4
 
+Repository: `DIGITAL-SIGNAL-PROCESSING-LABORATORY` — DAR ES SALAAM INSTITUTE OF TECHNOLOGY, YEAR 3
+
 Student: **Zaid Yaseer Yussuf** — Registration No. **240242479517** — Class **BEng24COE**
 
 This repository contains the individual laboratory submissions for Weeks 1–4 of
