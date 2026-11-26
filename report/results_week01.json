@@ -1,0 +1,25 @@
+{
+  "week": 1,
+  "elementary": {
+    "expo_10": 0.32768,
+    "ramp_10": 5,
+    "delta_nonzero_index": 0
+  },
+  "a_values_at_20": {
+    "0.5": 1e-06,
+    "-0.8": 0.011529,
+    "1.1": 6.7275
+  },
+  "periods": {
+    "cos_n8": 8,
+    "cos_n7_5": 15
+  },
+  "audio": {
+    "fs": 16000,
+    "duration_s": 4.7,
+    "samples": 75200,
+    "dtype": "int16",
+    "peak_before_normalisation": 32767.0,
+    "source": "data/my_voice.wav (speech-like stand-in; declared in AI-use statement)"
+  }
+}

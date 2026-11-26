@@ -1,0 +1,601 @@
+<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><title>COU07506 DSP Report Weeks 1-4</title><style>
+@page { size: A4; margin: 17mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: "Times New Roman", Times, serif; font-size: 11pt; line-height: 1.42; color: #111; }
+h1, h2, h3 { font-family: Arial, sans-serif; color: #16324f; }
+h1 { font-size: 19pt; margin: 14pt 0 8pt; }
+h2 { font-size: 14pt; margin: 16pt 0 6pt; border-bottom: 1px solid #b9c6d4; padding-bottom: 3pt; }
+h3 { font-size: 11.5pt; margin: 12pt 0 4pt; }
+p { margin: 5pt 0; text-align: justify; }
+.cover { text-align: center; page-break-after: always; margin-top: 35mm; }
+.cover .inst { font-family: Arial, sans-serif; font-size: 14pt; font-weight: bold; letter-spacing: 1px; }
+.cover .dept { font-family: Arial, sans-serif; font-size: 12pt; margin-top: 16pt; }
+.cover h1 { font-size: 24pt; margin-top: 28mm; }
+.cover .topic { font-size: 13pt; margin-top: 8mm; font-weight: bold; }
+.cover table { margin: 24mm auto 0; width: 80%; border: none; }
+.cover td { border: none; text-align: left; padding: 3pt 6pt; }
+.toc, .lof { page-break-after: always; }
+ul { margin: 4pt 0 4pt 18pt; }
+li { margin: 2pt 0; }
+figure { margin: 10pt 0 12pt; text-align: center; break-inside: avoid; page-break-inside: avoid; }
+figure img { max-width: 100%; height: auto; border: 1px solid #d6dde5; }
+figcaption, p.caption { font-size: 9.5pt; color: #333; text-align: center; margin-top: 4pt; }
+table { width: 100%; border-collapse: collapse; margin: 8pt 0; font-size: 9.5pt; break-inside: avoid; }
+th, td { border: 1px solid #9aa7b4; padding: 4pt 5pt; text-align: left; vertical-align: top; }
+th { background: #e6edf4; font-family: Arial, sans-serif; font-size: 9pt; }
+pre { background: #f4f6f8; border: 1px solid #ccd5de; padding: 6pt 8pt; font-family: Consolas, monospace;
+      font-size: 8pt; white-space: pre-wrap; break-inside: avoid; }
+code { font-family: Consolas, monospace; font-size: 0.95em; }
+.section { page-break-before: always; }
+.small { font-size: 9.5pt; color: #444; }
+.note { background: #f4f6f8; border-left: 3px solid #4d7ea8; padding: 6pt 8pt; margin: 8pt 0; }
+</style></head><body>
+<div class="cover">
+  <div class="inst">DAR ES SALAAM INSTITUTE OF TECHNOLOGY</div>
+  <div class="dept">Department of Computer Engineering<br>
+  Bachelor of Engineering in Computer Engineering</div>
+  <h1>DSP LABORATORY REPORT<br>WEEKS 1 TO 4</h1>
+  <div class="topic">Lab 0, Lab 1A, Lab 1B and Week 4<br>(Tasks 1.1 to 4.5)</div>
+  <table>
+    <tr><td>Module name</td><td>Digital Signal Processing</td></tr>
+    <tr><td>Module code</td><td>COU 07506</td></tr>
+    <tr><td>Class</td><td>BEng24COE</td></tr>
+    <tr><td>Work</td><td>Individual laboratory report</td></tr>
+    <tr><td>Student name</td><td>Zaid Yaseer Yussuf</td></tr>
+    <tr><td>Registration number</td><td>240242479517</td></tr>
+    <tr><td>Date</td><td>26 November 2026</td></tr>
+  </table>
+</div>
+
+<div class="toc">
+<h1>Contents</h1>
+<ol>
+<li>Objectives</li><li>Theory</li><li>Equipment and software</li>
+<li>Methodology and results</li><li>Discussion and analysis</li>
+<li>Conclusion</li><li>AI-use declaration</li>
+</ol>
+<h1>Table of Figures</h1>
+<ul>
+<li>Figure 1: Unit impulse, unit step, unit ramp and (0.8)<sup>n</sup>u(n) for −5 ≤ n ≤ 10.</li><li>Figure 2: a<sup>n</sup>u(n) for a = 0.5, −0.8 and 1.1.</li><li>Figure 3: cos(2πn/8) and cos(2πn/7.5) for 0 ≤ n ≤ 40.</li><li>Figure 4: Waveform of the recorded voice signal (normalised amplitude).</li><li>Figure 5: A 7 Hz cosine sampled at 10, 12, 14 and 20 Hz, with the predicted alias.</li><li>Figure 6: Spectrograms of the chirp decimated by 8 without filter (left) and with <code>signal.decimate</code> (right).</li><li>Figure 7: 3-bit quantisation of a 300 Hz sinusoid: input, quantised signal and error.</li><li>Figure 8: Measured and theoretical SQNR against the number of bits.</li><li>Figure 9: Noisy sine and its moving-average smoothed versions for M = 3, 9 and 25.</li><li>Figure 10: Cross-correlation between the delayed noisy signal and the original signal.</li><li>Figure 11: Impulse response of the system computed by recursion, <code>lfilter</code> and the closed form.</li><li>Figure 12: Step response of the system and its final value H(1).</li><li>Figure 13: Pole-zero plot and magnitude response of H(z) = (1 + z<sup>−1</sup>)/(1 − 0.75z<sup>−1</sup> + 0.125z<sup>−2</sup>).</li><li>Figure 14: h(n) (left) and |H(e<sup>jω</sup>)| (right) for a pole pair at re<sup>±jπ/4</sup>.</li><li>Figure 15: Pole-zero plots of H1 to H4 (H4 has four poles at the origin).</li><li>Figure 16: Pole-zero plot, magnitude response in Hz and Welch spectra of the white-noise input and the filtered output.</li><li>Figure 17: Frequency-axis sketch of the 7 Hz tone sampled at 10 Hz.</li>
+</ul>
+</div>
+
+
+<h1>1. Objectives</h1>
+<p>This report covers the four laboratory sessions of Weeks 1 to 4 of the module (Tasks 1.1 to
+4.5). The objectives were as follows.</p>
+<h3>Lab 0: Setting up the DSP laboratory (Tasks 1.1 to 1.4)</h3>
+<ol>
+<li>to set up the Python (NumPy, SciPy, Matplotlib) and Octave environments used for the module;</li>
+<li>to generate, plot and label elementary discrete-time sequences;</li>
+<li>to examine the effect of the parameter a on a<sup>n</sup>u(n) and the periodicity of sampled cosines;</li>
+<li>to read an audio file, report its sampling parameters and display its waveform.</li>
+</ol>
+<h3>Lab 1A: Sampling, aliasing and quantization (Tasks 2.1 to 2.5)</h3>
+<ol>
+<li>to demonstrate aliasing of a sampled sinusoid and to predict the alias frequency from |F − kf<sub>s</sub>|;</li>
+<li>to compare decimation without and with an anti-aliasing filter on a wide-band signal;</li>
+<li>to implement a uniform quantiser and measure the signal-to-quantisation-noise ratio (SQNR);</li>
+<li>to verify the 6 dB-per-bit rule experimentally.</li>
+</ol>
+<h3>Lab 1B: Convolution, correlation and difference equations (Tasks 3.1 to 3.5)</h3>
+<ol>
+<li>to implement linear convolution from its definition and to verify it against <code>np.convolve</code>;</li>
+<li>to smooth a noisy signal with moving-average filters and describe the trade-off;</li>
+<li>to test linearity and time-invariance of systems numerically;</li>
+<li>to estimate a time delay by cross-correlation and convert it into a distance;</li>
+<li>to solve a difference equation by recursion and with <code>lfilter</code> and to compare with the closed form.</li>
+</ol>
+<h3>Week 4: Z-transform laboratory: poles, zeros and stability (Tasks 4.1 to 4.5)</h3>
+<ol>
+<li>to find the poles, zeros and frequency response of a transfer function with SciPy;</li>
+<li>to obtain an inverse z-transform with <code>residuez</code> and check it against <code>lfilter</code>;</li>
+<li>to relate pole positions to stability, resonance and the shape of h(n);</li>
+<li>to design a simple resonator by placing poles and zeros.</li>
+</ol>
+
+<h1>2. Theory</h1>
+<h2>2.1 Discrete-time signals, periodicity and audio</h2>
+<p>A discrete-time signal x(n) is defined only at integer values of n and is stored as an index
+array and a value array. The elementary sequences used are the unit impulse δ(n), the unit
+step u(n), the unit ramp r(n) = n·u(n) and the real exponential a<sup>n</sup>u(n).</p>
+<p>A discrete-time cosine cos(2πf<sub>0</sub>n) is periodic only if f<sub>0</sub> is a rational number
+k/N, in which case the fundamental period is N samples (k and N having no common factor).
+A sampled audio signal is a sequence of numbers together with a sampling rate f<sub>s</sub>.
+A recording of duration T contains N = f<sub>s</sub>T samples, and frequencies up to f<sub>s</sub>/2
+can be represented.</p>
+<h2>2.2 Sampling, aliasing and quantisation</h2>
+<p>Sampling at f<sub>s</sub> represents frequencies only up to f<sub>s</sub>/2. A component at
+F &gt; f<sub>s</sub>/2 appears at the alias frequency F<sub>alias</sub> = |F − kf<sub>s</sub>|,
+where k is the integer nearest to F/f<sub>s</sub>. Once aliasing has occurred, the alias
+cannot be distinguished from a genuine component at that frequency. An anti-aliasing
+low-pass filter must therefore remove the content above f<sub>s</sub>/2 before the samples
+are taken or discarded.</p>
+<p>A uniform B-bit quantiser with range ±X<sub>m</sub> has step Δ = 2X<sub>m</sub>/2<sup>B</sup>
+and error variance Δ<sup>2</sup>/12. For a full-scale sinusoid,
+SQNR ≈ 6.02B + 1.76 dB, so each extra bit adds about 6 dB. The measured SQNR is
+10 log<sub>10</sub>(Σx<sup>2</sup>/Σe<sup>2</sup>), where e(n) = x(n) − x<sub>q</sub>(n).</p>
+<h2>2.3 Convolution, correlation and difference equations</h2>
+<p>The output of an LTI system is y(n) = Σ<sub>k</sub>x(k)h(n − k). For sequences of length L
+and M the result has L + M − 1 samples and the direct computation needs L·M
+multiplications. A system is linear if T{ax<sub>1</sub> + bx<sub>2</sub>} = aT{x<sub>1</sub>} +
+bT{x<sub>2</sub>} and time-invariant if a delay of the input only delays the output by the
+same amount. The cross-correlation r<sub>xy</sub>(l) = Σ<sub>n</sub>x(n)y(n − l) has its
+maximum at the lag where the two signals are most similar, which gives the delay between
+them. A difference equation y(n) = Σb<sub>k</sub>x(n − k) − Σa<sub>k</sub>y(n − k) is
+implemented by <code>lfilter(b, a, x)</code>; its steady-state response to a unit step is
+H(1) = Σb/Σa.</p>
+<h2>2.4 Stability and the z-transform</h2>
+<p>A causal LTI system is BIBO stable if its impulse response h(n) is absolutely summable,
+that is Σ|h(n)| &lt; ∞. For H(z) = B(z)/A(z) the roots of B are the zeros and the roots
+of A are the poles. A causal system is BIBO stable if and only if all poles satisfy |p| &lt; 1.
+A pole pair at re<sup>±jθ</sup> produces a resonance near ω = θ whose bandwidth is about
+2(1 − r) rad/sample, so it becomes sharper as r → 1. A zero on the unit circle produces
+a null in the magnitude response.</p>
+<p>For a second-order denominator A(z) = 1 + a<sub>1</sub>z<sup>−1</sup> +
+a<sub>2</sub>z<sup>−2</sup> the poles are inside the unit circle if and only if
+|a<sub>2</sub>| &lt; 1 and |a<sub>1</sub>| &lt; 1 + a<sub>2</sub> (the stability triangle).
+The inverse z-transform of a rational function with distinct poles p<sub>i</sub> and
+residues r<sub>i</sub> is h(n) = Σr<sub>i</sub>p<sub>i</sub><sup>n</sup>.</p>
+
+<h1>3. Equipment and software</h1>
+<p>A computer with Python 3, Jupyter Notebook, NumPy, SciPy (<code>signal.tf2zpk</code>,
+<code>signal.freqz</code>, <code>signal.residuez</code>, <code>signal.lfilter</code>) and
+Matplotlib was used throughout. GNU Octave was used for Task 1.4. The four notebooks were
+restarted and run from top to bottom; their exported numbers are used directly in this
+report.</p>
+<div class="note"><strong>Declaration about the audio.</strong> The original phone recording
+was not supplied with the source files. A deterministic speech-like WAV with the parameters
+reported below (16 kHz, 4.70 s, 75 200 samples, 16-bit mono PCM) was generated and stored at
+<code>data/my_voice.wav</code>. It is a stand-in, not a new recording, and is used only in
+Week 1. Lab 1A uses the manual's fallback chirp and synthetic speech-like signal so that
+the results are reproducible.</div>
+
+<h1 class="section">4. Methodology and results</h1>
+<h2>4.1 Lab 0: Setting up the DSP laboratory (Tasks 1.1 to 1.4)</h2>
+<h3>Task 1.1: Elementary sequences</h3>
+<p>The sequences δ(n), u(n), r(n) and (0.8)<sup>n</sup>u(n) were generated for −5 ≤ n ≤ 10
+with NumPy and plotted as stem plots (<figure><img src="figures/week01_task1_1.png" alt="Figure 1"><figcaption>Figure 1: Unit impulse, unit step, unit ramp and (0.8)<sup>n</sup>u(n) for −5 ≤ n ≤ 10.</figcaption></figure>). Table 1 summarises the observed behaviour.</p>
+<table><colgroup><col style="width:18%"><col style="width:30%"><col style="width:52%"></colgroup><thead><tr><th>Sequence</th><th>Definition</th><th>Observed behaviour</th></tr></thead><tbody><tr><td>δ(n)</td><td>1 for n = 0, otherwise 0</td><td>Single sample of value 1 at n = 0</td></tr><tr><td>u(n)</td><td>1 for n ≥ 0, otherwise 0</td><td>Steps to 1 at n = 0 and remains 1</td></tr><tr><td>r(n)</td><td>n·u(n)</td><td>Increases linearly; r(10) = 5</td></tr><tr><td>(0.8)<sup>n</sup>u(n)</td><td>0.8<sup>n</sup> for n ≥ 0</td><td>Geometric decay from 1; value 0.3277 at n = 10</td></tr></tbody></table><p class="caption">Table 1: Elementary sequences.</p>
+<h3>Task 1.2: Variation of parameters</h3>
+<p>(a) The sequence a<sup>n</sup>u(n) was plotted for a = 0.5, −0.8 and 1.1 (<figure><img src="figures/week01_task1_2a.png" alt="Figure 2"><figcaption>Figure 2: a<sup>n</sup>u(n) for a = 0.5, −0.8 and 1.1.</figcaption></figure>).
+The values at n = 20 are listed in Table 2.</p>
+<table><colgroup><col style="width:12%"><col style="width:62%"><col style="width:26%"></colgroup><thead><tr><th>a</th><th>Behaviour</th><th>Value at n = 20</th></tr></thead><tbody><tr><td>0.5</td><td>Monotonic decay (0 &lt; a &lt; 1)</td><td>1e-06</td></tr><tr><td>−0.8</td><td>Decaying, alternating sign (−1 &lt; a &lt; 0)</td><td>0.01153</td></tr><tr><td>1.1</td><td>Monotonic growth (a &gt; 1)</td><td>6.7275</td></tr></tbody></table><p class="caption">Table 2: Effect of a on a<sup>n</sup>u(n).</p>
+<p>(b) The sequences cos(2πn/8) and cos(2πn/7.5) were plotted for 0 ≤ n ≤ 40 (<figure><img src="figures/week01_task1_2b.png" alt="Figure 3"><figcaption>Figure 3: cos(2πn/8) and cos(2πn/7.5) for 0 ≤ n ≤ 40.</figcaption></figure>).</p>
+<table><colgroup><col style="width:34%"><col style="width:33%"><col style="width:33%"></colgroup><thead><tr><th>Sequence</th><th>f<sub>0</sub> (cycles/sample)</th><th>Fundamental period</th></tr></thead><tbody><tr><td>cos(2πn/8)</td><td>1/8</td><td>N = 8 samples</td></tr><tr><td>cos(2πn/7.5)</td><td>2/15</td><td>N = 15 samples</td></tr></tbody></table><p class="caption">Table 3: Periodicity of the two cosines.</p>
+<p>Both sequences are periodic, since both frequencies are rational. The second has a longer
+period because 7.5 is not an integer. This was verified numerically by confirming
+x(n + N) = x(n) for N = 8 and N = 15.</p>
+<h3>Task 1.3: Audio signal</h3>
+<p>The WAV file was read with <code>scipy.io.wavfile.read</code>, converted to mono where
+necessary and normalised to the range [−1, 1]. The parameters are given in Table 4 and the
+waveform in <figure><img src="figures/week01_task1_3.png" alt="Figure 4"><figcaption>Figure 4: Waveform of the recorded voice signal (normalised amplitude).</figcaption></figure>.</p>
+<table><colgroup><col style="width:45%"><col style="width:55%"></colgroup><thead><tr><th>Parameter</th><th>Value</th></tr></thead><tbody><tr><td>Sampling rate f<sub>s</sub></td><td>16,000 Hz (Nyquist frequency 8,000 Hz)</td></tr><tr><td>Duration T</td><td>4.70 s</td></tr><tr><td>Number of samples N</td><td>75,200 (= f<sub>s</sub> · T)</td></tr><tr><td>Original format</td><td>int16, mono (reproducible speech-like stand-in)</td></tr><tr><td>Peak amplitude after normalisation</td><td>1.0</td></tr></tbody></table><p class="caption">Table 4: Parameters of the audio signal. The original phone recording was not supplied; the stand-in is declared in Section 7.</p>
+<p>The signal consists of several bursts separated by lower-amplitude intervals. Within each
+burst the amplitude varies with each syllable, which is characteristic of speech.</p>
+<h3>Task 1.4: Implementation in GNU Octave</h3>
+<p>The sequences of Task 1.1 were implemented in Octave with the script in Appendix A. The
+main syntactic differences from Python are given in Table 5.</p>
+<table><colgroup><col style="width:30%"><col style="width:35%"><col style="width:35%"></colgroup><thead><tr><th>Feature</th><th>Python (NumPy)</th><th>Octave</th></tr></thead><tbody><tr><td>Index origin</td><td>0</td><td>1</td></tr><tr><td>Range −5 to 10</td><td><code>np.arange(-5, 11)</code></td><td><code>-5:10</code></td></tr><tr><td>Logical to numeric</td><td><code>.astype(float)</code></td><td><code>double()</code></td></tr><tr><td>Element-wise product / power</td><td><code>*</code> and <code>**</code></td><td><code>.*</code> and <code>.^</code></td></tr><tr><td>Multiple plots</td><td><code>plt.subplots()</code></td><td><code>subplot(r, c, k)</code></td></tr></tbody></table><p class="caption">Table 5: Python and Octave syntax differences.</p>
+
+<h2>4.2 Lab 1A: Sampling, aliasing and quantization (Tasks 2.1 to 2.5)</h2>
+<h3>Task 2.1: Aliasing of a sinusoid</h3>
+<p>A 7 Hz cosine was plotted on a dense time grid (the “analog” signal) together with its
+samples and the predicted alias for f<sub>s</sub> = 10, 12, 14 and 20 Hz (<figure><img src="figures/week02_task2_1.png" alt="Figure 5"><figcaption>Figure 5: A 7 Hz cosine sampled at 10, 12, 14 and 20 Hz, with the predicted alias.</figcaption></figure>).
+The alias frequencies are compared with |F − kf<sub>s</sub>| in Table 6.</p>
+<table><colgroup><col style="width:13%"><col style="width:20%"><col style="width:19%"><col style="width:18%"><col style="width:30%"></colgroup><thead><tr><th>f<sub>s</sub> (Hz)</th><th>k = round(F/f<sub>s</sub>)</th><th>|F − kf<sub>s</sub>| (Hz)</th><th>Observed alias (Hz)</th><th>Comment</th></tr></thead><tbody><tr><td>10</td><td>1</td><td>3</td><td>3</td><td>aliased</td></tr><tr><td>12</td><td>1</td><td>5</td><td>5</td><td>aliased</td></tr><tr><td>14</td><td>0</td><td>7</td><td>7</td><td>no alias / Nyquist limit</td></tr><tr><td>20</td><td>0</td><td>7</td><td>7</td><td>no alias / Nyquist limit</td></tr></tbody></table><p class="caption">Table 6: Alias frequency of a 7 Hz tone for different sampling rates.</p>
+<p>For f<sub>s</sub> = 10 Hz and 12 Hz the samples of the 7 Hz tone coincide exactly with those
+of a 3 Hz and a 5 Hz cosine respectively, so the alias curve passes through every sample.
+At f<sub>s</sub> = 14 Hz the tone lies exactly on f<sub>s</sub>/2: the samples alternate in
+sign and the frequency is not folded, but the sampled amplitude depends on the phase, so
+this case is borderline. At f<sub>s</sub> = 20 Hz the sampling theorem is satisfied and no
+alias exists.</p>
+<h3>Task 2.2: Aliasing in a decimated signal</h3>
+<p>The chirp (RMS 0.354) was decimated by k = 2, 4 and 8, first by keeping every k-th sample
+and then with <code>signal.decimate(x, k, ftype="fir")</code>, which low-pass filters before
+discarding samples. Table 7 compares the RMS values. The “predicted” column is the input RMS
+multiplied by the square root of the fraction of the sweep that lies below the new Nyquist
+frequency.</p>
+<table><colgroup><col style="width:8%"><col style="width:18%"><col style="width:25%"><col style="width:24%"><col style="width:25%"></colgroup><thead><tr><th>k</th><th>New f<sub>s</sub> (Hz)</th><th>RMS, x[::k] (no filter)</th><th>RMS, decimate (FIR)</th><th>RMS predicted for filtered</th></tr></thead><tbody><tr><td>2</td><td>22050</td><td>0.353</td><td>0.297</td><td>0.302</td></tr><tr><td>4</td><td>11025</td><td>0.353</td><td>0.208</td><td>0.212</td></tr><tr><td>8</td><td>5512.5</td><td>0.352</td><td>0.144</td><td>0.147</td></tr></tbody></table><p class="caption">Table 7: RMS of the decimated chirp with and without an anti-aliasing filter.</p>
+<p>Without a filter the RMS stays at about 0.35 for every k: nothing is removed, and all the
+energy above the new Nyquist frequency is folded into the band. With the filter the RMS
+falls to 0.144 for k = 8, close to the predicted
+0.147, because only the first part of the sweep
+(200 Hz to 2756 Hz) can be represented. <figure><img src="figures/week02_task2_2_spec.png" alt="Figure 6"><figcaption>Figure 6: Spectrograms of the chirp decimated by 8 without filter (left) and with <code>signal.decimate</code> (right).</figcaption></figure> shows the spectrograms for k = 8.</p>
+<p>In the unfiltered version the sweep reaches 2756 Hz, then folds back and zig-zags between
+0 and 2756 Hz for the rest of the record. In the filtered version the sweep stops at the new
+Nyquist frequency and the rest of the record is almost empty. The zig-zag is the aliasing and
+it is present over most of the unfiltered signal.</p>
+<h3>Task 2.3: A uniform quantiser</h3>
+<p>The function <code>quantize()</code> rounds to the nearest multiple of Δ = 2/2<sup>B</sup>
+and clips the result to [−1, 1 − Δ]. A 300 Hz sinusoid of amplitude 0.99 sampled at 8 kHz
+(80 samples, three cycles) was quantised to 3 bits, giving Δ = 0.25
+(<figure><img src="figures/week02_task2_3.png" alt="Figure 7"><figcaption>Figure 7: 3-bit quantisation of a 300 Hz sinusoid: input, quantised signal and error.</figcaption></figure>). The error stays within ±Δ/2 = ±0.125 except at the
+positive peaks, where 0.99 would round to 1.0 and is clipped to 0.75; the largest error is
+therefore 0.240.</p>
+<h3>Task 2.4: The 6 dB-per-bit rule</h3>
+<p>The SQNR of the same 80-sample sinusoid was measured for B = 2, 4, …, 16 and compared with
+the theoretical value (<figure><img src="figures/week02_task2_4.png" alt="Figure 8"><figcaption>Figure 8: Measured and theoretical SQNR against the number of bits.</figcaption></figure>, Table 8).</p>
+<table><colgroup><col style="width:18%"><col style="width:28%"><col style="width:29%"><col style="width:25%"></colgroup><thead><tr><th>B (bits)</th><th>Measured SQNR (dB)</th><th>6.02B + 1.76 (dB)</th><th>Difference (dB)</th></tr></thead><tbody><tr><td>2</td><td>9.60</td><td>13.80</td><td>-4.20</td></tr><tr><td>4</td><td>23.58</td><td>25.84</td><td>-2.26</td></tr><tr><td>6</td><td>36.81</td><td>37.88</td><td>-1.07</td></tr><tr><td>8</td><td>48.93</td><td>49.92</td><td>-0.99</td></tr><tr><td>10</td><td>62.81</td><td>61.96</td><td>+0.85</td></tr><tr><td>12</td><td>72.84</td><td>74.00</td><td>-1.16</td></tr><tr><td>14</td><td>88.13</td><td>86.04</td><td>+2.09</td></tr><tr><td>16</td><td>98.91</td><td>98.08</td><td>+0.83</td></tr></tbody></table><p class="caption">Table 8: Measured and theoretical SQNR.</p>
+<p>A straight-line fit through B = 4 to 16 gives a slope of
+6.30 dB per bit, against the theoretical 6.02 dB per bit.
+For B ≥ 4 the measured values are within about 2.3 dB of the formula; the scatter arises
+because the record contains only 80 samples, so the error is not a perfectly uniform noise.
+At B = 2 the measured value is low because the positive peaks are clipped. The theoretical
+value is also reduced by about 0.09 dB because the amplitude is 0.99 and not 1.</p>
+<h3>Task 2.5: Quantising a speech-like signal</h3>
+<p>A 4.7 s speech-like signal at 16 kHz, normalised to a peak of 1, was quantised to 4, 8 and
+12 bits. A 440 Hz sine of amplitude 0.999 was quantised in the same way for comparison
+(Table 9). The speech-like signal has a crest factor (peak/RMS) of
+13.2, compared with 1.41 for a sine.</p>
+<table><colgroup><col style="width:15%"><col style="width:25%"><col style="width:24%"><col style="width:24%"><col style="width:12%"></colgroup><thead><tr><th>B (bits)</th><th>Speech-like signal (dB)</th><th>Full-scale sine (dB)</th><th>6.02B + 1.76 (dB)</th><th>Gap (dB)</th></tr></thead><tbody><tr><td>4</td><td>10.7</td><td>23.3</td><td>25.8</td><td>12.5</td></tr><tr><td>8</td><td>30.6</td><td>50.1</td><td>49.9</td><td>19.6</td></tr><tr><td>12</td><td>54.6</td><td>73.8</td><td>74.0</td><td>19.2</td></tr></tbody></table><p class="caption">Table 9: SQNR of a speech-like signal and of a full-scale sine.</p>
+<p>The speech-like signal has an SQNR about 20 dB lower than the sine at 8 and 12 bits. This
+matches the crest-factor penalty 20 log<sub>10</sub>(crest/√2) =
+19.4 dB: the step Δ is fixed by the peak, but the average
+signal power is much lower, so the noise is large compared with the signal. At 4 bits the
+gap is smaller because Δ is so large that much of the signal falls below one step and the
+quantisation error is no longer uniform. The same reasoning applies to real speech, which
+has pauses and a high peak-to-RMS ratio.</p>
+
+<h2>4.3 Lab 1B: Convolution, correlation and difference equations (Tasks 3.1 to 3.5)</h2>
+<h3>Task 3.1: Convolution from the definition</h3>
+<p>The function <code>conv(x, h)</code> implements the double sum. It returned
+[1 3 6 6 4 1] for x = {1, 2, 3, 1} and h = {1, 1, 1}, the expected result, and the same as
+<code>np.convolve</code>. The pre-lab sequences gave the expected result with both functions.
+Two random sequences of length 2000 were then convolved with both functions and timed with
+<code>time.perf_counter()</code> (Table 11); the results agreed
+(<code>np.allclose = True</code>).</p>
+<table><colgroup><col style="width:38%"><col style="width:32%"><col style="width:30%"></colgroup><thead><tr><th>Function</th><th>Time for L = M = 2000</th><th>Multiplications</th></tr></thead><tbody><tr><td>conv (Python double loop)</td><td>10.255 s</td><td>L·M = 4 000 000</td></tr><tr><td>np.convolve</td><td>3.12 ms</td><td>L·M = 4 000 000</td></tr><tr><td>Ratio</td><td>≈ 3283× faster</td><td>same</td></tr></tbody></table><p class="caption">Table 11: Timing of the two implementations (times depend on the computer used).</p>
+<h3>Task 3.2: Smoothing a noisy signal</h3>
+<p>The signal x(n) = sin(2πn/50) + 0.5w(n), with Gaussian noise w(n), was convolved with
+moving-average filters h(n) = (1/M){1, …, 1} for M = 3, 9 and 25 using <code>mode="same"</code>
+(<figure><img src="figures/week03_task3_2.png" alt="Figure 9"><figcaption>Figure 9: Noisy sine and its moving-average smoothed versions for M = 3, 9 and 25.</figcaption></figure>). Table 12 gives the theoretical gain of each filter at the frequency of the
+sine, |sin(Mω/2)/(M sin(ω/2))| with ω = 2π/50, and the RMS error between the output and the
+clean sine, with M samples excluded at each end to avoid edge effects.</p>
+<table><colgroup><col style="width:30%"><col style="width:35%"><col style="width:35%"></colgroup><thead><tr><th>Filter</th><th>Gain at the 50-sample period</th><th>RMS error against the clean sine</th></tr></thead><tbody><tr><td>noisy x(n)</td><td>1.000</td><td>0.509</td></tr><tr><td>M = 3</td><td>0.995</td><td>0.304</td></tr><tr><td>M = 9</td><td>0.948</td><td>0.187</td></tr><tr><td>M = 25</td><td>0.637</td><td>0.271</td></tr></tbody></table><p class="caption">Table 12: Effect of the moving-average length.</p>
+<p>M = 3 removes little noise. M = 9 gives the lowest error and reduces the amplitude of the
+sine by a few per cent. M = 25 removes more noise but attenuates the wanted sine, so the
+total error rises again. A longer filter therefore gives more noise reduction but more
+distortion of the wanted signal.</p>
+<h3>Task 3.3: Testing linearity and time-invariance</h3>
+<p>Each system was tested with two random sequences, a = 2 and b = −3, and with an input
+delayed by 5 samples (Table 13).</p>
+<table><colgroup><col style="width:34%"><col style="width:22%"><col style="width:24%"><col style="width:20%"></colgroup><thead><tr><th>System</th><th>Linear</th><th>Time-invariant</th><th>LTI</th></tr></thead><tbody><tr><td>x^2</td><td>no</td><td>yes</td><td>no</td></tr><tr><td>n x(n)</td><td>yes</td><td>no</td><td>no</td></tr><tr><td>moving average</td><td>yes</td><td>yes</td><td>yes</td></tr></tbody></table><p class="caption">Table 13: Numerical test of the three systems.</p>
+<p>The squarer fails the superposition test because (ax<sub>1</sub> + bx<sub>2</sub>)<sup>2</sup>
+contains a cross term 2abx<sub>1</sub>x<sub>2</sub>, but it is time-invariant because it acts
+on each sample in the same way. The system n·x(n) is linear but not time-invariant: delaying
+the input by n<sub>0</sub> gives n·x(n − n<sub>0</sub>), whereas the delayed output is
+(n − n<sub>0</sub>)·x(n − n<sub>0</sub>). The 3-point moving average is a weighted sum with
+constant coefficients and is therefore both linear and time-invariant.</p>
+<h3>Task 3.4: Finding a hidden delay</h3>
+<p>A noise-free signal of 500 samples was delayed by 37 samples, scaled by 0.6 and corrupted
+with Gaussian noise. The cross-correlation of the received and transmitted signals peaks at
+lag 37 for σ = 0.5 (<figure><img src="figures/week03_task3_4.png" alt="Figure 10"><figcaption>Figure 10: Cross-correlation between the delayed noisy signal and the original signal.</figcaption></figure>).</p>
+<p>The noise standard deviation was then increased. The single run with the specified seed is
+shown together with the fraction of 300 independent trials in which the true delay of 37
+samples was found (Table 14).</p>
+<table><colgroup><col style="width:25%"><col style="width:40%"><col style="width:35%"></colgroup><thead><tr><th>Noise σ</th><th>Estimated delay (samples)</th><th>Success rate (300 trials)</th></tr></thead><tbody><tr><td>0.5</td><td>37</td><td>100%</td></tr><tr><td>1</td><td>37</td><td>100%</td></tr><tr><td>2</td><td>37</td><td>100%</td></tr><tr><td>4</td><td>87</td><td>68%</td></tr><tr><td>8</td><td>87</td><td>15%</td></tr><tr><td>16</td><td>87</td><td>3%</td></tr></tbody></table><p class="caption">Table 14: Delay estimate against noise level.</p>
+<p>The estimate was correct for σ = 0.5, 1 and 2 in the single run and in every one of the 300
+trials. At higher noise the single run already failed and the success rate falls. The peak
+of the correlation is about 0.6 × 500 = 300, while the noise contributes a random level of
+about σ√500 ≈ 22σ, so the peak is lost once σ is of the order of 4 to 8. A delay of 37
+samples at f<sub>s</sub> = 1000 Hz is 37 ms, which for a sound pulse at 343 m/s corresponds
+to a distance of 12.7 m.</p>
+<h3>Task 3.5: Difference equation</h3>
+<p>For y(n) − 0.75y(n − 1) + 0.125y(n − 2) = x(n) + x(n − 1) the impulse response was computed
+for 0 ≤ n ≤ 9 in three ways: by direct recursion in a for loop, with
+<code>signal.lfilter([1, 1], [1, −0.75, 0.125], impulse)</code>, and from the closed form
+h(n) = 6(0.5)<sup>n</sup> − 5(0.25)<sup>n</sup>. All three agree (<figure><img src="figures/week03_task3_5_imp.png" alt="Figure 11"><figcaption>Figure 11: Impulse response of the system computed by recursion, <code>lfilter</code> and the closed form.</figcaption></figure>, Table 15;
+<code>np.allclose = True</code> for both comparisons). The step response, computed with
+<code>lfilter</code>, settles at 5.3333 (<figure><img src="figures/week03_task3_5_step.png" alt="Figure 12"><figcaption>Figure 12: Step response of the system and its final value H(1).</figcaption></figure>). This equals
+H(1) = Σb/Σa = 2/0.375 = 5.3333.</p>
+<table><thead><tr><th>n</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th></tr></thead><tbody><tr><td>h(n)</td><td>1.0000</td><td>1.7500</td><td>1.1875</td><td>0.6719</td><td>0.3555</td><td>0.1826</td><td>0.0925</td><td>0.0466</td><td>0.0234</td><td>0.0117</td></tr></tbody></table><p class="caption">Table 15: Impulse response h(n) for 0 ≤ n ≤ 9 (identical for the three methods).</p>
+
+<h2>4.4 Week 4: Z-transform laboratory (Tasks 4.1 to 4.5)</h2>
+<h3>Task 4.1: A pole-zero plotting function</h3>
+<p>The function <code>zplane(b, a)</code> was written using <code>signal.tf2zpk</code> and applied
+to H(z) = (1 + z<sup>−1</sup>)/(1 − 0.75z<sup>−1</sup> + 0.125z<sup>−2</sup>). It has a zero
+at z = −1 and poles at z = 0.50, 0.25; all poles satisfy |p| &lt; 1, so the printed test gave
+True (<figure><img src="figures/week04_task4_1.png" alt="Figure 13"><figcaption>Figure 13: Pole-zero plot and magnitude response of H(z) = (1 + z<sup>−1</sup>)/(1 − 0.75z<sup>−1</sup> + 0.125z<sup>−2</sup>).</figcaption></figure>). The magnitude response falls from 14.5 dB at ω = 0 to
+a null at ω = π because of the zero at z = −1.</p>
+<h3>Task 4.2: Inverse z-transform with residuez</h3>
+<p><code>signal.residuez</code> was applied to 1/(1 − 0.75z<sup>−1</sup> + 0.125z<sup>−2</sup>)
+and the resulting sum of residues times p<sup>n</sup> was compared with the impulse response
+from <code>lfilter</code> for n = 0 to 9. The same was done for b = [1, 1] (Table 16).</p>
+<table><colgroup><col style="width:22%"><col style="width:24%"><col style="width:24%"><col style="width:30%"></colgroup><thead><tr><th>Numerator</th><th>Pole 0.25: residue</th><th>Pole 0.5: residue</th><th>Σr<sub>i</sub>p<sub>i</sub><sup>n</sup> equals lfilter?</th></tr></thead><tbody><tr><td>[1]</td><td>-1</td><td>2</td><td>yes</td></tr><tr><td>[1, 1]</td><td>-5</td><td>6</td><td>yes</td></tr></tbody></table><p class="caption">Table 16: Residues from <code>signal.residuez</code> and comparison with <code>lfilter</code>.</p>
+<p>The residues for the numerator 1 are 2 (at p = 0.5) and −1 (at p = 0.25), which equals the
+partial-fraction expansion of the pre-lab question (b). For b = [1, 1] they are 6 and −5,
+which confirms h(n) = 6(0.5)<sup>n</sup> − 5(0.25)<sup>n</sup>, the closed form used in Task 3.5.</p>
+<h3>Task 4.3: Pole position and the impulse response</h3>
+<p>For a pole pair at p = re<sup>±jπ/4</sup>, that is
+A(z) = 1 − 2r cos(π/4)z<sup>−1</sup> + r<sup>2</sup>z<sup>−2</sup>, h(n) (40 samples) and
+|H(e<sup>jω</sup>)| were plotted for r = 0.5, 0.8, 0.95, 1.0 and 1.05 (<figure><img src="figures/week04_task4_3.png" alt="Figure 14"><figcaption>Figure 14: h(n) (left) and |H(e<sup>jω</sup>)| (right) for a pole pair at re<sup>±jπ/4</sup>.</figcaption></figure>, Table 17).</p>
+<table><colgroup><col style="width:8%"><col style="width:22%"><col style="width:16%"><col style="width:20%"><col style="width:22%"><col style="width:12%"></colgroup><thead><tr><th>r</th><th>Poles</th><th>Peak |H| (dB)</th><th>−3 dB bandwidth (×π rad)</th><th>max |h(n)|, 30 ≤ n ≤ 39</th><th>Stable</th></tr></thead><tbody><tr><td>0.5</td><td>0.50 (angle ±45°)</td><td>5.5</td><td>0.385</td><td>0</td><td>yes</td></tr><tr><td>0.8</td><td>0.80 (angle ±45°)</td><td>11.9</td><td>0.153</td><td>0.0012</td><td>yes</td></tr><tr><td>0.95</td><td>0.95 (angle ±45°)</td><td>23.2</td><td>0.032</td><td>0.26</td><td>yes</td></tr><tr><td>1</td><td>1.00 (angle ±45°)</td><td>71.1</td><td>—</td><td>1.41</td><td>no</td></tr><tr><td>1.05</td><td>1.05 (angle ±45°)</td><td>22.8</td><td>—</td><td>8.6</td><td>no</td></tr></tbody></table><p class="caption">Table 17: Effect of the pole radius r.</p>
+<p>As r increases from 0.5 to 0.95 the impulse response still oscillates at the same rate
+(θ = π/4) but decays more slowly, and the resonance peak at ω = π/4 becomes taller and
+narrower. The bandwidth follows the approximation 2(1 − r) rad. For r = 1.0 the response is
+a sustained sinusoid of constant amplitude and the peak of |H| is infinite. For r = 1.05
+the response grows as 1.05<sup>n</sup>. The values r = 1.0 and r = 1.05 are therefore not
+BIBO stable; r = 1.0 is marginally stable.</p>
+<h3>Task 4.4: Stability of given systems</h3>
+<p>The four systems were classified with <code>zplane</code> (<figure><img src="figures/week04_task4_4.png" alt="Figure 15"><figcaption>Figure 15: Pole-zero plots of H1 to H4 (H4 has four poles at the origin).</figcaption></figure>) and checked by
+computing h(n) for 200 samples (Table 18).</p>
+<table><colgroup><col style="width:10%"><col style="width:28%"><col style="width:12%"><col style="width:18%"><col style="width:16%"><col style="width:16%"></colgroup><thead><tr><th>System</th><th>Poles</th><th>max |p|</th><th>max |h(n)|, n ≥ 150</th><th>Σ|h(n)|, n &lt; 200</th><th>Classification</th></tr></thead><tbody><tr><td>H1</td><td>0.800+0.500j, 0.800-0.500j</td><td>0.943</td><td>0.000236</td><td>21.8</td><td>stable</td></tr><tr><td>H2</td><td>2.000+0.000j, 0.500+0.000j</td><td>2.000</td><td>1.61e+60</td><td>3.21e+60</td><td>unstable</td></tr><tr><td>H3</td><td>-1.000+0.000j, 0.500+0.000j</td><td>1.000</td><td>0.667</td><td>134</td><td>marginal (not BIBO)</td></tr><tr><td>H4</td><td>0.000+0.000j, 0.000+0.000j, 0.000+0.000j, 0.000+0.000j</td><td>0.000</td><td>0</td><td>2</td><td>stable (FIR)</td></tr></tbody></table><p class="caption">Table 18: Stability classification and check of the impulse response.</p>
+<p>H1 has poles at 0.80 ± j0.50 (radius 0.943) and is stable; its impulse response decays
+slowly. H2 has poles at 2 and 0.5; the pole at z = 2 is outside the unit circle, so h(n)
+grows without bound and the zero at z = −1 does not cancel it. H3 has poles at 0.5 and −1:
+the pole at z = −1 is on the unit circle, and h(n) = (1/3)(0.5)<sup>n</sup> + (2/3)(−1)<sup>n</sup>
+neither decays nor grows, but Σ|h(n)| increases by about 2/3 per sample, so the system is
+not BIBO stable. H4 = 1 − z<sup>−4</sup> is an FIR filter with h(n) = {1, 0, 0, 0, −1};
+its poles are all at z = 0, so it is always stable.</p>
+<h3>Task 4.5: Design of a resonator</h3>
+<p>A resonator peaking at 1 kHz for f<sub>s</sub> = 8 kHz was designed with poles at
+re<sup>±jθ</sup>, r = 0.97 and θ = 2π·1000/8000 = π/4, so
+A(z) = 1 − 1.3718z<sup>−1</sup> + 0.9409z<sup>−2</sup>. Zeros at z = ±1 give B(z) = 1 − z<sup>−2</sup>,
+which was scaled to give unit gain at the peak. The result is in <figure><img src="figures/week04_task4_5.png" alt="Figure 16"><figcaption>Figure 16: Pole-zero plot, magnitude response in Hz and Welch spectra of the white-noise input and the filtered output.</figcaption></figure> and the main
+figures are in Table 19.</p>
+<table><colgroup><col style="width:45%"><col style="width:55%"></colgroup><thead><tr><th>Quantity</th><th>Value</th></tr></thead><tbody><tr><td>Peak frequency</td><td>1000 Hz</td></tr><tr><td>−3 dB bandwidth</td><td>77 Hz (approximation 2(1 − r)f<sub>s</sub>/2π = 76 Hz)</td></tr><tr><td>Gain at 0 Hz and at 4 kHz</td><td>0.0e+00 and 6.8e-06 (zeros)</td></tr><tr><td>Peak of Welch spectrum of the filtered noise</td><td>1000 Hz</td></tr></tbody></table><p class="caption">Table 19: Properties of the resonator.</p>
+<p>White noise (8000 samples, f<sub>s</sub> = 8 kHz) has a flat spectrum, while the filtered
+output is concentrated in a narrow band around 1 kHz and is strongly reduced near 0 Hz and
+4 kHz. The output can also be played with <code>Audio(y, rate=8000)</code> to hear the
+narrow-band tone-like noise.</p>
+
+<h1 class="section">5. Discussion and analysis</h1>
+<h2>5.1 Lab 0</h2>
+<h3>Pre-lab question</h3>
+<p>Three devices containing DSP and the signal each processes: a smartphone (speech from
+the microphone: noise reduction and coding); a digital audio system (audio stream:
+equalisation); a Wi-Fi router (radio signal: modulation and demodulation).</p>
+<h3>Analysis questions</h3>
+<ol>
+<li><strong>Storage.</strong> For f<sub>s</sub> = 16 kHz, one minute of mono audio requires
+60 × 16 000 = 960 000 numbers. At 44.1 kHz it requires 2 646 000 and at 48 kHz 2 880 000.</li>
+<li><strong>Stem plot.</strong> x(n) exists only at integer n. A continuous line would imply
+values between samples, whereas a stem plot shows only the defined samples.</li>
+<li><strong>Growing exponential.</strong> For a = 1.1, Σ|h(n)| diverges. A bounded input would
+therefore produce an unbounded output, so the BIBO stability condition is violated.</li>
+</ol>
+<h2>5.2 Lab 1A</h2>
+<h3>Pre-lab questions</h3>
+<p>(a) A 7 kHz tone sampled at 10 kHz appears at |7 − 10| = 3 kHz. (b) For an 8-bit quantiser
+with a ±1 V range, Δ = 2/2<sup>8</sup> = 7.8125 mV. The theoretical SQNR is 6.02 × 8 + 1.76
+= 49.9 dB.</p>
+<h3>Analysis questions</h3>
+<ol>
+<li><strong>Alias of 7 Hz at f<sub>s</sub> = 10 Hz.</strong> Sampling makes the spectrum repeat
+at multiples of f<sub>s</sub>, so the tone at +7 Hz has copies at 7 − 10 = −3 Hz and 17 Hz,
+and the tone at −7 Hz has a copy at +3 Hz (<figure><img src="figures/week02_analysis_alias.png" alt="Figure 17"><figcaption>Figure 17: Frequency-axis sketch of the 7 Hz tone sampled at 10 Hz.</figcaption></figure>). Only frequencies below
+f<sub>s</sub>/2 = 5 Hz are visible in the baseband, so the 7 Hz tone is seen as 3 Hz.</li>
+<li><strong>Why aliasing cannot be removed afterwards.</strong> After sampling, the alias and
+a genuine component at the same frequency give identical samples, and many input
+frequencies map to the same alias. The information needed to tell them apart has been
+lost, so no later filter can separate them. The low-pass filter must act before the
+samples are discarded.</li>
+<li><strong>Change in SQNR per bit.</strong> Adding one bit halves Δ, so the noise power
+Δ<sup>2</sup>/12 falls by a factor of 4, which is 10 log<sub>10</sub>4 = 6.02 dB. The measured
+slope was 6.30 dB per bit, which agrees with the theory.</li>
+<li><strong>Temperature sensor.</strong> The range of 100 °C and the resolution of 0.01 °C
+require 100/0.01 = 10 000 levels, so log<sub>2</sub>10 000 = 13.3, which rounds up to B = 14
+bits. The temperature changes by at most 0.1 °C per second, so a sampling rate of 1 Hz keeps
+the change between samples to 0.1 °C or less. This is very much above the Nyquist rate of the
+slow signal. A higher rate such as 10 Hz with averaging could be used to reduce noise, but is
+not needed for the signal itself.</li>
+</ol>
+<h2>5.3 Lab 1B</h2>
+<h3>Pre-lab questions</h3>
+<p>(a) The convolution of x = {1, −1, 2} with h = {2, 1, 0, 1} is {2, −1, 3, 3, −1, 2}.
+(b) For y(n) = n·x(n), the response to the delayed input x(n − n<sub>0</sub>) is
+n·x(n − n<sub>0</sub>), but the delayed output is (n − n<sub>0</sub>)·x(n − n<sub>0</sub>).
+They differ for n<sub>0</sub> ≠ 0, so the system is not time-invariant.</p>
+<h3>Analysis questions</h3>
+<ol>
+<li><strong>Speed of <code>np.convolve</code>.</strong> Both methods need L·M multiplications,
+so the number of operations is the same. <code>np.convolve</code> is faster because the loops
+run in compiled C code on whole arrays, whereas the Python double loop is interpreted and
+has overhead on every single multiplication.</li>
+<li><strong>LTI systems.</strong> Only the moving average is LTI. This could be predicted
+without code: the squarer is non-linear, and multiplication by n is a time-varying gain,
+while the moving average is a fixed weighted sum of delayed inputs.</li>
+<li><strong>Applications of cross-correlation in Tanzania.</strong> (i) Locating leaks in
+water pipes: two sensors on the pipe record the leak noise, and the delay between them,
+found by cross-correlation, gives the position of the leak. (ii) Radar and GPS: the received
+signal is correlated with the transmitted code or pulse, and the delay gives the range.</li>
+<li><strong>FIR or IIR, and stability.</strong> The system is IIR, because the feedback terms
+make h(n) = 6(0.5)<sup>n</sup> − 5(0.25)<sup>n</sup> non-zero for all n ≥ 0. It is stable: the
+poles are at z = 0.5 and 0.25, inside the unit circle, and h(n) decays to zero. All h(n) are
+positive, so Σ|h(n)| = H(1) = 5.333, which is finite.</li>
+</ol>
+<h2>5.4 Week 4</h2>
+<h3>Pre-lab questions</h3>
+<p>(a) The denominator 1 − 0.9z<sup>−1</sup> + 0.81z<sup>−2</sup> gives
+z<sup>2</sup> − 0.9z + 0.81 = 0, so z = 0.45 ± j0.779 = 0.9e<sup>±jπ/3</sup>. The magnitude is
+0.9 &lt; 1, so the system is stable. (b) X(z) = 2/(1 − 0.5z<sup>−1</sup>) −
+1/(1 − 0.25z<sup>−1</sup>), which agrees with the residues in Table 16.</p>
+<h3>Analysis questions</h3>
+<ol>
+<li><strong>Effect of r on bandwidth.</strong> The −3 dB bandwidth of the resonance is about
+2(1 − r) rad/sample. When r rises from 0.8 to 0.95 the bandwidth falls from
+0.153π to 0.032π, so a pole
+closer to the unit circle gives a narrower, taller peak (and a longer-lasting impulse response).</li>
+<li><strong>Pole exactly on the unit circle.</strong> The impulse response neither decays nor
+grows. A complex pair at e<sup>±jθ</sup> gives a sustained sinusoid
+h(n) = sin((n + 1)θ)/sinθ, and a single pole at z = 1 or z = −1 gives a constant or
+alternating sequence. The system is not BIBO stable because Σ|h(n)| diverges, and an input
+at that frequency gives an output that grows without bound. Such a pole is used to make an
+oscillator.</li>
+<li><strong>Why zeros at z = ±1 give a band-pass filter.</strong> A zero at z = 1 (ω = 0)
+blocks DC and a zero at z = −1 (ω = π) blocks f<sub>s</sub>/2. With the pole pair giving gain
+at 1 kHz, the response is zero at both ends of the spectrum and large in between, which is a
+band-pass shape (<figure><img src="figures/week04_task4_5.png" alt="Figure 16"><figcaption>Figure 16: Pole-zero plot, magnitude response in Hz and Welch spectra of the white-noise input and the filtered output.</figcaption></figure>).</li>
+<li><strong>Stability triangle.</strong> With A(z) = 1 + a<sub>1</sub>z<sup>−1</sup> +
+a<sub>2</sub>z<sup>−2</sup>, the system is stable if |a<sub>2</sub>| &lt; 1 and
+|a<sub>1</sub>| &lt; 1 + a<sub>2</sub>. (a) a<sub>1</sub> = −1.6, a<sub>2</sub> = 0.89:
+|a<sub>2</sub>| &lt; 1 and 1.6 &lt; 1.89, so it is stable. (b) a<sub>1</sub> = −2.5,
+a<sub>2</sub> = 1: |a<sub>2</sub>| = 1 is not less than 1, so it is unstable.
+(c) a<sub>1</sub> = 0.5, a<sub>2</sub> = −0.5: |a<sub>1</sub>| = 0.5 equals 1 + a<sub>2</sub>
+= 0.5, which is on the boundary of the triangle, so a pole lies on the unit circle
+(z = −1) and the system is marginal. These agree with Table 18.</li>
+</ol>
+
+<h1 class="section">6. Conclusion</h1>
+<p>In Lab 0, elementary discrete-time sequences were generated and plotted in Python and
+Octave. The sequence a<sup>n</sup>u(n) decays for |a| &lt; 1 and grows for a &gt; 1, and the
+growing case corresponds to an unstable impulse response. Both cos(2πn/8) and
+cos(2πn/7.5) were shown to be periodic, with periods of 8 and 15 samples respectively.
+A 4.70 s audio signal sampled at 16,000 Hz (75,200 samples) was loaded,
+normalised and displayed.</p>
+<p>In Lab 1A, aliasing was demonstrated for a 7 Hz tone and the alias frequencies agreed with
+|F − kf<sub>s</sub>| (3 Hz at 10 Hz, 5 Hz at 12 Hz). Decimating a chirp without a filter folded
+the whole sweep into the band, while <code>signal.decimate</code> removed everything above
+the new Nyquist frequency. The uniform quantiser gave an SQNR that rises by about
+6.3 dB per bit, in agreement with 6.02B + 1.76 for a
+full-scale sine, and a speech-like signal had an SQNR about 20 dB lower because of its high
+crest factor.</p>
+<p>In Lab 1B, linear convolution was implemented from its definition and matched
+<code>np.convolve</code>, which was about 3283 times faster on
+the same data. Moving-average smoothing showed the trade-off between noise reduction and
+distortion. Of the three systems tested, only the moving average is LTI. Cross-correlation
+found the 37-sample delay (12.7 m for a sound pulse) up to a noise level of
+σ = 2 and failed at larger noise levels. The impulse response of the difference equation was
+identical by recursion, <code>lfilter</code> and the closed form, and the step response settled
+at H(1) = 5.333.</p>
+<p>In Week 4, the poles and zeros of H(z) were found and plotted, and the residues from
+<code>residuez</code> reproduced the impulse response from <code>lfilter</code> and the closed
+form h(n) = 6(0.5)<sup>n</sup> − 5(0.25)<sup>n</sup>. Moving a pole pair towards the unit circle
+made the resonance sharper and the impulse response longer, and poles on or outside the
+circle gave a non-decaying or growing response. Of the four systems tested, H1 and H4 are
+stable, H2 is unstable and H3 is marginal. A band-pass resonator with its peak at
+1000 Hz (−3 dB bandwidth about 77 Hz) was designed with
+r = 0.97 and zeros at z = ±1.</p>
+<p>All objectives of the four laboratories were met.</p>
+
+<h1 class="section">7. AI-use declaration</h1>
+<p><strong>AI tool used:</strong> OpenCode (model Big Pickle). <strong>Used for:</strong>
+drafting the code and the text of this report and of the four notebooks. <strong>Verification:</strong>
+all four notebooks were restarted and run from top to bottom. In Lab 0 the plots were compared
+with the expected results in the laboratory manual and the periodicity of the cosines was
+checked numerically. In Lab 1A the alias frequencies were compared with |F − kf<sub>s</sub>| and
+the SQNR values with 6.02B + 1.76 and with the crest-factor correction. In Lab 1B
+<code>conv</code> was compared with <code>np.convolve</code> and with the expected result
+{1, 3, 6, 6, 4, 1}, the three impulse responses were compared with each other, and the delay
+estimate was compared with the known delay of 37 samples. In Week 4 the residues were compared
+with the hand partial-fraction expansion, pole positions were compared with hand calculation
+of the roots, stability results were checked with the stability triangle, and the resonator
+peak and bandwidth were checked against 2(1 − r). The speech-like audio stand-in is declared
+in Section 3. I can explain every line of the submitted code.</p>
+
+<h1 class="section">Appendix A: Octave script (Lab 0, Task 1.4)</h1>
+<pre><code class="octave">n = -5:10;
+delta = double(n == 0);
+step  = double(n &gt;= 0);
+ramp  = n .* step;
+expo  = 0.8.^n .* step;
+subplot(1,4,1); stem(n, delta); title('delta(n)'); xlabel('n');
+subplot(1,4,2); stem(n, step);  title('u(n)');     xlabel('n');
+subplot(1,4,3); stem(n, ramp);  title('r(n)');     xlabel('n');
+subplot(1,4,4); stem(n, expo);  title('(0.8)^n u(n)'); xlabel('n');</code></pre>
+<h1>Appendix B: Python code (Lab 1A, Tasks 2.1 to 2.5)</h1>
+<pre><code class="python">def alias_freq(f0, fs):
+    k = round(f0 / fs)
+    return abs(f0 - k * fs), k
+
+def quantize(x, bits, full_scale=1.0):
+    delta = 2 * full_scale / 2**bits
+    q = np.round(x / delta) * delta
+    return np.clip(q, -full_scale, full_scale - delta)
+
+def sqnr_db(x, xq):
+    return 10 * np.log10(np.sum(x**2) / np.sum((x - xq)**2))
+
+def chirp_signal(fs=44100, T=3):
+    t = np.arange(0, T, 1 / fs)
+    return fs, 0.5 * signal.chirp(t, 200, T, 15000)
+
+def speech_like(fs=16000, T=4.7, seed=3):
+    rng = np.random.default_rng(seed)
+    t = np.arange(0, T, 1 / fs)
+    env = np.zeros_like(t)
+    for centre, width, amp in [(0.9, 0.18, 0.7), (1.5, 0.15, 0.5),
+                               (2.3, 0.22, 1.0), (3.0, 0.20, 0.8),
+                               (3.8, 0.25, 0.45)]:
+        env += amp * np.exp(-0.5 * ((t - centre) / width) ** 2)
+    f0 = 110 + 25 * np.sin(2 * np.pi * 0.4 * t)
+    phase = 2 * np.pi * np.cumsum(f0) / fs
+    voiced = sum(np.sin(k * phase) / k**0.8 for k in range(1, 30))
+    b, a = signal.butter(2, [300, 2500], btype="band", fs=fs)
+    voiced = signal.lfilter(b, a, voiced)
+    b2, a2 = signal.butter(2, 1500, btype="high", fs=fs)
+    noise = signal.lfilter(b2, a2, rng.standard_normal(len(t)))
+    x = env * voiced + 0.02 * noise + 0.1 * env * noise
+    return fs, x / np.max(np.abs(x))</code></pre>
+<h1>Appendix C: Python code (Lab 1B, Tasks 3.1 to 3.5)</h1>
+<pre><code class="python">def conv(x, h):
+    N = len(x) + len(h) - 1
+    y = np.zeros(N)
+    for n in range(N):
+        for k in range(len(x)):
+            if 0 &lt;= n - k &lt; len(h):
+                y[n] += x[k] * h[n - k]
+    return y
+
+systems = {"x^2": lambda x: x**2,
+           "n x(n)": lambda x: np.arange(len(x)) * x,
+           "moving average": lambda x: np.convolve(x, np.ones(3)/3)[:len(x)]}
+
+def delay_estimate(sigma, seed=1, true_delay=37, N=500):
+    rng = np.random.default_rng(seed)
+    x = rng.standard_normal(N)
+    y = np.concatenate([np.zeros(true_delay), 0.6 * x])[:N] + sigma * rng.standard_normal(N)
+    r = signal.correlate(y, x, mode="full")
+    lags = signal.correlation_lags(len(y), len(x), mode="full")
+    return int(lags[np.argmax(r)]), lags, r
+
+b, a = [1, 1], [1, -0.75, 0.125]
+imp = np.zeros(10); imp[0] = 1
+h_rec = np.zeros(10)
+for n in range(10):
+    h_rec[n] = imp[n] + (imp[n-1] if n &gt;= 1 else 0)
+    h_rec[n] += 0.75 * (h_rec[n-1] if n &gt;= 1 else 0) - 0.125 * (h_rec[n-2] if n &gt;= 2 else 0)
+h_lf = signal.lfilter(b, a, imp)
+h_cf = 6 * 0.5**np.arange(10) - 5 * 0.25**np.arange(10)
+step = signal.lfilter(b, a, np.ones(60))</code></pre>
+<h1>Appendix D: Python code (Week 4, Tasks 4.1 to 4.5)</h1>
+<pre><code class="python">def zplane(b, a, ax=None, extra_poles_at_origin=0):
+    z, p, k = signal.tf2zpk(b, a)
+    p = np.concatenate([p, np.zeros(extra_poles_at_origin)])
+    ax = ax or plt.gca()
+    th = np.linspace(0, 2*np.pi, 400)
+    ax.plot(np.cos(th), np.sin(th), "k--", lw=0.8, label="unit circle")
+    ax.plot(z.real, z.imag, "o", mfc="none", label="zeros")
+    ax.plot(p.real, p.imag, "x", label="poles")
+    ax.set_aspect("equal"); ax.legend(); ax.set_xlabel("Re(z)"); ax.set_ylabel("Im(z)")
+    return z, p
+
+def inverse_check(b, a, N=10):
+    r, p, k = signal.residuez(b, a)
+    n = np.arange(N)
+    h_pf = sum(ri * pi**n for ri, pi in zip(r, p)).real
+    imp = np.zeros(N); imp[0] = 1
+    h_lf = signal.lfilter(b, a, imp)
+    return r, p, h_pf, h_lf
+
+SYS4 = {"H1": ([1], [1, -1.6, 0.89]),
+        "H2": ([1, 1], [1, -2.5, 1]),
+        "H3": ([1], [1, 0.5, -0.5]),
+        "H4": ([1, 0, 0, 0, -1], [1])}
+
+def classify(b, a, N=200):
+    z, p = zplane(b, a)
+    imp = np.zeros(N); imp[0] = 1
+    h = signal.lfilter(b, a, imp)
+    rmax = float(np.max(np.abs(p))) if len(p) else 0.0
+    return z, p, h, rmax, float(np.max(np.abs(h[150:]))), float(np.sum(np.abs(h)))
+
+r, p = 0.97, 2*np.pi*1000/8000
+a_res = [1, -2*r*np.cos(p), r**2]
+b_res = [1, 0, -1]
+w, H = signal.freqz(b_res, a_res, worN=8192, fs=8000)
+b_res = (np.array(b_res) / np.max(np.abs(H))).tolist()
+x = np.random.default_rng(0).standard_normal(8000)
+y = signal.lfilter(b_res, a_res, x)</code></pre>
+</body></html>

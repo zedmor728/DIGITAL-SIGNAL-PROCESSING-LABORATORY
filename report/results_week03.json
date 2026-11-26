@@ -1,0 +1,115 @@
+{
+  "week": 3,
+  "convolution": {
+    "expected": [
+      1,
+      3,
+      6,
+      6,
+      4,
+      1
+    ],
+    "prelab": [
+      2,
+      -1,
+      3,
+      3,
+      -1,
+      2
+    ],
+    "loop_time_s": 10.2548,
+    "numpy_time_s": 0.003124,
+    "speed_ratio": 3282.7
+  },
+  "smoothing": [
+    {
+      "M": 0,
+      "gain_at_50_samples": 1.0,
+      "rms_error": 0.509
+    },
+    {
+      "M": 3,
+      "gain_at_50_samples": 0.995,
+      "rms_error": 0.304
+    },
+    {
+      "M": 9,
+      "gain_at_50_samples": 0.948,
+      "rms_error": 0.187
+    },
+    {
+      "M": 25,
+      "gain_at_50_samples": 0.637,
+      "rms_error": 0.271
+    }
+  ],
+  "systems": [
+    {
+      "system": "x^2",
+      "linear": false,
+      "time_invariant": true,
+      "LTI": false
+    },
+    {
+      "system": "n x(n)",
+      "linear": true,
+      "time_invariant": false,
+      "LTI": false
+    },
+    {
+      "system": "moving average",
+      "linear": true,
+      "time_invariant": true,
+      "LTI": true
+    }
+  ],
+  "delay": [
+    {
+      "sigma": 0.5,
+      "single_run_estimate": 37,
+      "success_rate_300_trials": 1.0
+    },
+    {
+      "sigma": 1,
+      "single_run_estimate": 37,
+      "success_rate_300_trials": 1.0
+    },
+    {
+      "sigma": 2,
+      "single_run_estimate": 37,
+      "success_rate_300_trials": 1.0
+    },
+    {
+      "sigma": 4,
+      "single_run_estimate": 87,
+      "success_rate_300_trials": 0.683
+    },
+    {
+      "sigma": 8,
+      "single_run_estimate": 87,
+      "success_rate_300_trials": 0.15
+    },
+    {
+      "sigma": 16,
+      "single_run_estimate": 87,
+      "success_rate_300_trials": 0.03
+    }
+  ],
+  "diffeq": {
+    "h": [
+      1.0,
+      1.75,
+      1.1875,
+      0.6719,
+      0.3555,
+      0.1826,
+      0.0925,
+      0.0466,
+      0.0234,
+      0.0117
+    ],
+    "step_final": 5.3333,
+    "H1": 5.3333,
+    "methods_agree": true
+  }
+}

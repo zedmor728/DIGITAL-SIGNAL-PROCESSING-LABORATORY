@@ -1,0 +1,129 @@
+{
+  "week": 4,
+  "task41": {
+    "zeros": [
+      "-1.0000+0.0000j"
+    ],
+    "poles": [
+      "0.5000+0.0000j",
+      "0.2500+0.0000j"
+    ],
+    "stable": true,
+    "gain_0_dB": 14.54,
+    "gain_pi_dB": -49.7
+  },
+  "residues": [
+    {
+      "b": "[1]",
+      "residues": [
+        -1.0,
+        2.0
+      ],
+      "poles": [
+        0.25,
+        0.5
+      ],
+      "matches_lfilter": true
+    },
+    {
+      "b": "[1, 1]",
+      "residues": [
+        -5.0,
+        6.0
+      ],
+      "poles": [
+        0.25,
+        0.5
+      ],
+      "matches_lfilter": true
+    }
+  ],
+  "pole_pair": [
+    {
+      "r": 0.5,
+      "peak_dB": 5.51,
+      "bw_over_pi": 0.385,
+      "max_h_last10": 0.0,
+      "stable": true
+    },
+    {
+      "r": 0.8,
+      "peak_dB": 11.88,
+      "bw_over_pi": 0.153,
+      "max_h_last10": 0.0012,
+      "stable": true
+    },
+    {
+      "r": 0.95,
+      "peak_dB": 23.23,
+      "bw_over_pi": 0.032,
+      "max_h_last10": 0.2603,
+      "stable": true
+    },
+    {
+      "r": 1.0,
+      "peak_dB": 71.13,
+      "bw_over_pi": null,
+      "max_h_last10": 1.4142,
+      "stable": false
+    },
+    {
+      "r": 1.05,
+      "peak_dB": 22.8,
+      "bw_over_pi": null,
+      "max_h_last10": 8.6004,
+      "stable": false
+    }
+  ],
+  "systems": [
+    {
+      "system": "H1",
+      "poles": "0.800+0.500j, 0.800-0.500j",
+      "max_pole_radius": 0.943,
+      "max_h_n_ge_150": "0.000236",
+      "sum_abs_h": "21.8",
+      "classification": "stable"
+    },
+    {
+      "system": "H2",
+      "poles": "2.000+0.000j, 0.500+0.000j",
+      "max_pole_radius": 2.0,
+      "max_h_n_ge_150": "1.61e+60",
+      "sum_abs_h": "3.21e+60",
+      "classification": "unstable"
+    },
+    {
+      "system": "H3",
+      "poles": "-1.000+0.000j, 0.500+0.000j",
+      "max_pole_radius": 1.0,
+      "max_h_n_ge_150": "0.667",
+      "sum_abs_h": "134",
+      "classification": "marginal (not BIBO)"
+    },
+    {
+      "system": "H4",
+      "poles": "0.000+0.000j, 0.000+0.000j, 0.000+0.000j, 0.000+0.000j",
+      "max_pole_radius": 0.0,
+      "max_h_n_ge_150": "0",
+      "sum_abs_h": "2",
+      "classification": "stable (FIR)"
+    }
+  ],
+  "resonator": {
+    "peak_Hz": 1000.5,
+    "bw_Hz": 76.7,
+    "bw_approx_Hz": 76.4,
+    "gain_0": 0.0,
+    "gain_nyquist": 6.841770418041142e-06,
+    "b": [
+      0.029550102248123225,
+      0.0,
+      -0.029550102248123225
+    ],
+    "a": [
+      1.0,
+      -1.3717871555019023,
+      0.9409
+    ]
+  }
+}

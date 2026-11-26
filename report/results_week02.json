@@ -1,0 +1,116 @@
+{
+  "week": 2,
+  "alias": [
+    {
+      "fs_Hz": 10,
+      "k": 1,
+      "abs_F_minus_kfs_Hz": 3.0,
+      "comment": "aliased"
+    },
+    {
+      "fs_Hz": 12,
+      "k": 1,
+      "abs_F_minus_kfs_Hz": 5.0,
+      "comment": "aliased"
+    },
+    {
+      "fs_Hz": 14,
+      "k": 0,
+      "abs_F_minus_kfs_Hz": 7.0,
+      "comment": "no alias / Nyquist limit"
+    },
+    {
+      "fs_Hz": 20,
+      "k": 0,
+      "abs_F_minus_kfs_Hz": 7.0,
+      "comment": "no alias / Nyquist limit"
+    }
+  ],
+  "decimation": [
+    {
+      "k": 2,
+      "new_fs_Hz": 22050.0,
+      "rms_naive": 0.3533859011159602,
+      "rms_decimate": 0.296626552635607,
+      "rms_predicted_filtered": 0.30236977975156115
+    },
+    {
+      "k": 4,
+      "new_fs_Hz": 11025.0,
+      "rms_naive": 0.3531456672281576,
+      "rms_decimate": 0.20771075419906176,
+      "rms_predicted_filtered": 0.2118233843584327
+    },
+    {
+      "k": 8,
+      "new_fs_Hz": 5512.5,
+      "rms_naive": 0.3521648708345139,
+      "rms_decimate": 0.14372143092691414,
+      "rms_predicted_filtered": 0.14693528299250205
+    }
+  ],
+  "quant3": {
+    "delta": 0.25,
+    "max_error": 0.24
+  },
+  "sqnr_bits": {
+    "bits": [
+      2,
+      4,
+      6,
+      8,
+      10,
+      12,
+      14,
+      16
+    ],
+    "measured": [
+      9.6,
+      23.58,
+      36.81,
+      48.93,
+      62.81,
+      72.84,
+      88.13,
+      98.91
+    ],
+    "theory": [
+      13.8,
+      25.84,
+      37.88,
+      49.92,
+      61.96,
+      74.0,
+      86.04,
+      98.08
+    ],
+    "slope_dB_per_bit": 6.3
+  },
+  "speech": {
+    "crest_factor": 13.16,
+    "crest_penalty_dB": 19.4,
+    "rows": [
+      {
+        "B": 4,
+        "speech_SQNR_dB": 10.73,
+        "sine_SQNR_dB": 23.27,
+        "theory_dB": 25.84,
+        "gap_dB": 12.54
+      },
+      {
+        "B": 8,
+        "speech_SQNR_dB": 30.55,
+        "sine_SQNR_dB": 50.1,
+        "theory_dB": 49.92,
+        "gap_dB": 19.55
+      },
+      {
+        "B": 12,
+        "speech_SQNR_dB": 54.64,
+        "sine_SQNR_dB": 73.84,
+        "theory_dB": 74.0,
+        "gap_dB": 19.19
+      }
+    ]
+  }
+}
